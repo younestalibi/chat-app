@@ -93,12 +93,10 @@ $(()=>{
     $("#profile_image").hover(function(){
         $('#change_image').removeClass('d-none')
         $('#change_image').addClass('d-flex')
-        console.log('in')
       },
       function(){
         $('#change_image').addClass('d-none')
         $('#change_image').removeClass('d-flex')
-        console.log('out')
       });
     // hover on picture in user profile
 
@@ -115,7 +113,6 @@ $(()=>{
     // })
     $(document).on('click','.list_friends, .friend',function(){
         // fill the data
-        console.log('clicked')
         let user=JSON.parse($(this).attr('blog'))
         $('.user_name').text(user.name)
         $('#user_email').text(user.email)
@@ -147,6 +144,8 @@ $(()=>{
                 if(data){
                     $('#loader').addClass('d-none')
                     let img=1;
+                    let imag_count=Number($('#count_images').html())
+                    
                     data.forEach(message => {
                         if(message.image!=null){
                             
@@ -157,7 +156,9 @@ $(()=>{
                             '')
                             $('#media-'+img).attr('src',"storage/"+message.image)
                             img==3?img=1:img++
+                            imag_count++
                         }
+                        $('#count_images').html(imag_count)
                         let image='';
                         if(message.image!=null){
                             image='storage/'+message.image        
@@ -230,9 +231,9 @@ $(()=>{
     })
     // show media 
 
-    // dark light mode
+    // dark light mode 
     $('#apperances').on('click',function(){
-        $('#change_mode').removeClass('d-none')
+        $('#change_mode').removeClass('d-none') 
         $('#change_mode').addClass('d-flex')
     })
     $('#cancel_change_mode').on('click',function(){
@@ -243,10 +244,26 @@ $(()=>{
         if($('#lightmode').is(':checked')){
             $('#css_mode').attr('href','style/light.css')
             $('#lightmode').attr(':checked')
+            jQuery.ajax({
+                url: '/home/mode',
+                method: 'get',
+                data: {mode:'style/light.css'},
+                success: function(data) {
+                    console.log('done'+data)
+                }
+            })
         }
         else if($('#darkmode').is(':checked')){
             $('#css_mode').attr('href','style/dark.css')
             $('#darkmode').attr(':checked')
+            jQuery.ajax({
+                url: '/home/mode',
+                method: 'get',
+                data: {mode:'style/dark.css'},
+                success: function(data) {
+                    console.log('done'+data)
+                }
+            })
         }
         $('#change_mode').removeClass('d-flex')
         $('#change_mode').addClass('d-none')
@@ -263,7 +280,6 @@ $(()=>{
     });
     // sending message
     $('#send_message').on('click',function(){
-        console.log($('#upload').val().length)
         $('#form').submit()
     })
     $('#upload').change(function () {
@@ -284,48 +300,12 @@ $(()=>{
         $('#upload').val(null)
     })
 
-    // $.ajax({
-    //     url: '/home/test',
-    //     method: 'get',
-    //     data: {
-    //         name: 'John',
-    //         email: 'john@example.com',
-    //         image:$("#upload").prop('files')[0]
-    //     },
-    //     success: function(response) {
-    //         console.log(response)
-    //     }
-    // });
-
-    // $("#form").submit(function(e) {
-    //     e.preventDefault();
-    //     var formData = new FormData(this);
-    //     formData.append('to',5)
-    
-    //     $.ajax({
-    //         url: '/home/test',
-    //         method: 'post',
-    //         data: formData,
-    //         cache:false,
-    //         contentType: false,
-    //         processData: false,
-    //         success: function (data) {
-    //             console.log(data);
-    //         },
-            
-    //     });
-    // });
-
-
     $('#form').submit(function(e) {
         e.preventDefault();
     
         console.log('in submit ')
         var dt = new Date();
-        let formData = new FormData(this);
         let to=$('#to').val()
-        // formData.append('to',to)
-
         var time = dt.getHours() + ":" + dt.getMinutes() +(dt.getHours()>=12? "PM":"AM");
         if($( "#message_input" ).val().length>0 || $('#upload').val().length>0){
             console.log('sending')            
@@ -360,6 +340,15 @@ $(()=>{
                  },
                 success: function(data){
                     console.log('return : '+data)
+                    // console.log(JSON.parse(data))   //this ajax request is for sending image if the old method doesn't work this is not best practice in case
+                    // jQuery.ajax({
+                    //     url: '/home/throw',
+                    //     method: 'get',
+                    //     data: JSON.parse(data),
+                    //     success: function(data) {
+                    //         console.log(JSON.parse(data))
+                    //     }
+                    // })
                 },
             });
         }
@@ -548,10 +537,104 @@ $(()=>{
 
                 
             //   });
+           
 
-            
+            $(document).on("visibilitychange", function() {
+                if (document.hidden) {
+                    jQuery.ajax({
+                        url:'/home/Offline/'+$('#search').attr('mu'),
+                        method: 'post',
+                        success:function(){
+                            // alert('onffline')
+                        }
+                    });
+                    console.log('offline')
+                } else {
+                    jQuery.ajax({
+                        url:'/home/Online/'+$('#search').attr('mu'),
+                        method: 'post',
+                        success:function(){
+                            // alert('online')
+                        }
+                    });
+                    console.log('online')
+                }
+            });
+            $(document).ready(function() {
+                jQuery.ajax({
+                        url:'/home/Online/'+$('#search').attr('mu'),
+                        method: 'post',
+                    });
+                    console.log('online')
+            });
 
-            
+
+             $('#form_image').submit(function(e) {
+                e.preventDefault();
+                let user=$('#submit_image').attr('userimage')
+                console.log(user)
+                jQuery.ajax({
+                    url: '/home/update/image/'+user,
+                    method: 'post',
+                    data: new FormData(this),
+                    cache:false,
+                    contentType: false,
+                    processData: false,
+                    success: function(data) {
+                        $(".myimage").attr('src','storage/'+data.message);
+                        $('#alert').html(""+
+                            "<div class='alert alert-warning alert-dismissible fade show' role='alert'>"+
+                                "<strong>"+data.update_succeeded+"</strong>"+
+                                "<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>"+
+                            "</div>"+
+                        "");
+                    }
+                })
+                
+              });
+              
+
+            $('#form_username').submit(function(event) {
+                event.preventDefault();
+                let user=$('#submit_image').attr('userimage')
+                let formData = $(this).serialize();
+                $.ajax({
+                url: '/home/update/name/'+user,
+                method: 'patch',
+                data: formData,
+                success: function(data) {
+                    $('#alert').html(""+
+                        "<div class='alert alert-warning alert-dismissible fade show' role='alert'>"+
+                            "<strong>"+data.update_succeeded+"</strong>"+
+                            "<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>"+
+                        "</div>"+
+                    "");
+                }
+                });
+            });
+              
+            $('#form_status_profile').submit(function(event) {
+                event.preventDefault();
+                let user=$('#submit_image').attr('userimage')
+                let formData = $(this).serialize();
+                $.ajax({
+                url: '/home/update/status/'+user,
+                method: 'patch',
+                data: formData,
+                success: function(data) {
+                    $('#alert').html(""+
+                        "<div class='alert alert-warning alert-dismissible fade show' role='alert'>"+
+                            "<strong>"+data.update_succeeded+"</strong>"+
+                            "<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>"+
+                        "</div>"+
+                    "");
+                }
+                });
+            });
+
+           
+
+              
 
 
           

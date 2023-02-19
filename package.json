@@ -17,7 +17,7 @@
         "vue": "^3.2.37"
     },
     "dependencies": {
-        "bootstrap-icons": "^1.10.2",
+        "bootstrap-icons": "^1.10.3",
         "laravel-echo": "^1.14.2",
         "pusher-js": "^8.0.0"
     }

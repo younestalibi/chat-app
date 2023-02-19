@@ -18,10 +18,12 @@
 
     <!-- -----new links-------- -->
     <link rel="stylesheet" href="frameworks/bootstrap 4/bootstrap.min.css">
-    
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
+    <!-- <link rel="stylesheet" href="frameworks/bootstrap 4/bootstrap-icon.css"> -->
+    <!-- <link rel="stylesheet" href="node_modules/bootstrap-icons"> -->
+
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css"> -->
     <!-- <link rel="stylesheet" href="index.css"> -->
-    <link rel="stylesheet" href="style/dark.css" id="css_mode">
+    <link rel="stylesheet" href="{{auth()->user()->mode ?? `style/dark.css`}}" id="css_mode">
     <!-- -----new links-------- -->
 </head>
 <body>

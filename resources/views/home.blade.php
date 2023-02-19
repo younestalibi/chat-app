@@ -2,14 +2,6 @@
 
 @section('content')
 <div>
-@if(Session::has('update_succeeded'))
-<div class="alert row my-0 alert-warning alert-dismissible fade show" style="width:100vw;overflow: hidden;" role="alert">
-    <strong>{{Session('update_succeeded')}}</strong>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-@else
-<div id='alert'></div>
-@endif
     <div class="row m-0" style="height: 100vh;width:100vw;overflow: hidden;">
         <!-- left side -->
         <div class="d-none d-md-block col-md-8 w-100 vh-100 px-0 border-right border-dark justify-content-center" id="left_section">
@@ -66,7 +58,7 @@
                         <div class="justify-content-between d-flex">
                             <b class="h-25 text-muted">Social</b>
                             <div class="text-muted" id="all_media" style="cursor:pointer;">
-                                <b>28</b>
+                                <b id='count_images'>0</b>
                                 <i class="bi bi-caret-right-fill"></i>
                             </div>
                         </div>
@@ -182,12 +174,6 @@
             </div>
         </form>
         <!-- left side -->
-        <!-- <form action="/home/send" method='get' id='form' enctype= 'multipart/form-data'>
-            <input type="text" name="message" id="test1">
-            <input type="file" name="file" id="test2">
-            <input type="submit" value="submit">
-        </form> -->
-        
 
         <!-- right side -->
         <div class=" col-md-4 d-md-block m-0 p-0 " id="right_section">
@@ -199,18 +185,10 @@
                             <i class="bi bi-arrow-left mb-1 mx-2 h5"></i><span class="h4">Back</span>
                         </div>
                     </div>
-
-                    @if(Session::has('update_succeeded'))
-                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                        <strong>{{Session('update_succeeded')}}</strong>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                    @endif
-                    <!-- forms of updating user image profile -->
-                    <form action="/home/update/image/{{auth()->user()->id}}" id="form_image" method="post" enctype="multipart/form-data">
-                        @csrf
-                        @method('PATCH')
-                        <input type="file" name="image" class='d-none' onchange="document.getElementById('form_image').submit();" id="getImage">
+                    <div id='alert'></div>
+                    <form  id="form_image" onsubmit="event.preventDefault();">
+                        <input type="submit" value='submit' class='d-none' userimage='{{auth()->user()->id}}' id='submit_image'>
+                        <input type="file" name="image" class='d-none'  onchange="document.getElementById('submit_image').click();"  id="getImage">
                     </form>
                     <!-- forms of updating user image profile -->
                     <div style="overflow-y: auto;height: calc(100vh - 90px);" class="pb-5">
@@ -220,40 +198,33 @@
                                     <i class="bi bi-camera-fill h4 "></i>
                                     <b class="text-justify ">change image profile</b>
                                 </div>
-                                <img src="{{auth()->user()->profile->image_profile()}}" class="rounded-circle" style="width:100%;height:100%;position: absolute;" alt="profile">
+                                <img src="{{auth()->user()->profile->image_profile()}}" class="rounded-circle myimage" style="width:100%;height:100%;position: absolute;" alt="profile">
                             </div>
                         </div>
                         
                         <div class="lines mt-2 ">
-                            
                             <div class="d-flex justify-content-center mb-3 mt-2">
-                                <form action="/home/update/name/{{auth()->user()->id}}" method="post" class='w-100 mx-1'>
-                                    @csrf
-                                    @method('PATCH')
+                                <form   id='form_username' class='w-100 mx-1'>
                                     <div class="text-left px-2 mx-lg-4 mx-auto font-weight-bold text-muted">
                                         Username
                                     </div>
                                     <div style='position: relative;' class="p-2 mx-lg-4 mx-auto">
                                         <i class="bi bi-plus-circle-fill h4" onclick="$('#form_name').click()" style="cursor: pointer;;position: absolute;left: 20px; top: 13px;"></i>
-                                        <input type="text" class="m-auto form-control pl-5 w-100" placeholder="User name" name='name' autocomplete="off" value='{{auth()->user()->name}}'>
+                                        <input type="text" class="m-auto form-control pl-5 w-100" id='username_input' placeholder="User name" name='name' autocomplete="off" value='{{auth()->user()->name}}'>
                                     </div>
                                     <input type="submit" id="form_name" class='d-none'>
                                 </form>
                             </div>
                         </div>
                         <div class="lines mt-2 ">
-
                             <div class="d-flex justify-content-center mb-3 mt-2">
-
-                                <form action="/home/update/status/{{auth()->user()->id}}" class='w-100 mx-1' method="post">
-                                    @csrf
-                                    @method('PATCH')
+                                <form class='w-100 mx-1' id='form_status_profile'>
                                     <div class="text-left px-2 mx-lg-4 mx-auto font-weight-bold text-muted">
                                         Status
                                     </div>
                                     <div style='position: relative;' class="p-2 mx-lg-4 mx-auto">
                                         <i class="bi bi-plus-circle-fill h4" onclick="$('#form_status').click()" style="cursor: pointer;;position: absolute;left: 20px; top: 13px;"></i>
-                                        <input type="text" class="m-auto form-control pl-5 w-100" placeholder="Status" name='description' value="{{auth()->user()->profile->description}}">
+                                        <input type="text" class="m-auto form-control pl-5 w-100" id='username_input' placeholder="Status" name='description' value="{{auth()->user()->profile->description}}">
                                     </div>
                                     <input type="submit" id="form_status" class='d-none'>
                                 </form>
@@ -269,10 +240,10 @@
                 <div class="justify-content-between d-flex align-items-center" id="user_navbar">
                     <div>
                         <i class="bi bi-gear-fill h4 text-primary ml-2" id="user_menu_icon" style="cursor:pointer;"></i>
-                        <span><b class="h4 mx-2">Chats</b></span>
+                        <span><b class="h4 mx-2" id='te'>Chats</b></span>
                     </div>
                     <div class="mx-2" style="width:40px;height:40px;position: relative;">
-                        <img src="{{auth()->user()->profile->image_profile()}}" class="rounded-circle" style="width:100%;height:100%;position: absolute;" alt="profile">
+                        <img src="{{auth()->user()->profile->image_profile()}}" class='myimage rounded-circle' class="rounded-circle" style="width:100%;height:100%;position: absolute;" alt="profile">
                     </div>
                 </div>
                 <div id="right_menu" class="d-none">
@@ -438,7 +409,6 @@
         let image='';
         if(data.image!=null){
             image='storage/'+data.image
-            console.log(image)
         }
         let dt = new Date();
         let time = dt.getHours() + ":" + dt.getMinutes() +(dt.getHours()>=12? "PM":"AM");
@@ -447,7 +417,7 @@
         console.log(image)
         console.log('hi')
         if($('#to').val()==sender_id){
-            $('#messages').append(''+
+            $('#messages').append(''+  //adding a message to chat
                 '<div class="row mx-0 py-1">'+
                     '<div class="col-auto px-3 py-2" id="recived_message">'+
                         '<div id="tringle_recived"></div>'+
@@ -460,7 +430,7 @@
                     '</div>'+
                 '</div>'+
             '')
-            $('[ui="'+sender_id+'"]').find('.last_message').text(message)
+            $('[ui="'+sender_id+'"]').find('.last_message').text(same.message_pend)
             jQuery.ajax({
                 url:'/home/readMessage/'+sender_id,
                 method: 'POST'

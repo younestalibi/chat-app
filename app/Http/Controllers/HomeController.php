@@ -49,6 +49,13 @@ class HomeController extends Controller
             return 'hello';
         }
     }
+    public function mode(Request $request)
+    {
+       $user=auth()->user();
+       $user->mode=$request->mode;
+       $user->save();
+    //    return 'hell';
+    }
     
 
 

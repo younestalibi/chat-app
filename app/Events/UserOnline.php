@@ -14,7 +14,7 @@ use App\Models\User;
 class UserOnline implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-
+ 
     public $user;
 
     public function __construct( $user)

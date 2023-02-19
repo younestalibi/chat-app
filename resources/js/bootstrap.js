@@ -19,7 +19,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
  * for events that are broadcast by Laravel. Echo and event broadcasting
  * allows your team to easily build robust real-time web applications.
  */
-
+// alert('hi hell')
 import Echo from 'laravel-echo';
 
 import Pusher from 'pusher-js';
@@ -32,33 +32,38 @@ window.Echo = new Echo({
     encrypted: true
 });
 
-    $(document).on("visibilitychange", function() {
-        if (document.hidden) {
-            jQuery.ajax({
-                url:'/home/Offline/'+$('#search').attr('mu'),
-                method: 'get',
-            });
-        } else {
-            jQuery.ajax({
-                url:'/home/Online/'+$('#search').attr('mu'),
-                method: 'get',
-            });
-        }
-    });
-    $(document).ready(function() {
-        jQuery.ajax({
-                url:'/home/Online/'+$('#search').attr('mu'),
-                method: 'get',
-            });
-    });
+    // $(document).on("visibilitychange", function() {
+    //     if (document.hidden) {
+    //         jQuery.ajax({
+    //             url:'/home/Offline/'+$('#search').attr('mu'),
+    //             method: 'get',
+    //         });
+    //         alert('offline')
+    //     } else {
+    //         jQuery.ajax({
+    //             url:'/home/Online/'+$('#search').attr('mu'),
+    //             method: 'get',
+    //         });
+    //         alert('online')
+    //     }
+    // });
+    // $(document).ready(function() {
+    //     jQuery.ajax({
+    //             url:'/home/Online/'+$('#search').attr('mu'),
+    //             method: 'get',
+    //         });
+    //         alert('online')
+    // });
   
-
-window.Echo.join('chat',
-{user_id: 'fakeUserId',name: 'Fake Usesr',user_info: {name: 'Fakes User',},}
+// alert('diiid')
+// console.log('hisdf')
+window.Echo.join('chat'
+// {user_id: 'fakeUserId',name: 'Fake Usesr',user_info: {name: 'Fakes User',},}
 )
     .here((users) => {
         users.forEach(ele => {
             console.log(ele.name)
+            // alert('hi')
         });
     })
     .listen('UserOnline', (e) => {
@@ -66,10 +71,12 @@ window.Echo.join('chat',
             if($('#user_status').attr('ui')=='user-'+e.user.id){
                 $('#user_status').text('online')
             }
+            // alert('hi')
         }else{
             if($('#user_status').attr('ui')=='user-'+e.user.id){
                 $('#user_status').text('offline')
             }
+            // alert('hi')
         }
     })
 
