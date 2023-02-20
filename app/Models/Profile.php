@@ -12,7 +12,7 @@ class Profile extends Model
 
     public function image_profile(){
         if(!$this->image){
-            $this->image='default-images/profile.webp';
+            $this->image='default-images/profile.png';
             $this->save();
         }
         return 'storage/'.$this->image;

@@ -390,10 +390,9 @@
 
 <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
 <script>
-
     // Enable pusher logging - don't include this in production
     Pusher.logToConsole = true;
-
+    // console.log("{{ env('PUSHER_APP_KEY') }}")
     var pusher = new Pusher('0fc33308824f759cdafe', {
       cluster: 'eu'
     });

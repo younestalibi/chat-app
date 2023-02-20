@@ -13,8 +13,23 @@ class ProfileController extends Controller
     public function update_image(User $user)
     {
         // dd(request('image'));
+        
+        // dd($path);
+        // if(file_exists())
+       
+        
+        if(str_starts_with($user->profile->image, 'uploads/')){
+            $path=public_path('/storage/'.$user->profile->image);
+            if(file_exists($path)){
+                unlink($path);
+            }
+           
+        }
+        
         $image=$user->profile->image=request('image')->store("uploads","public");
         $user->push();
+        
+        // unlink($path);
         // return redirect('home')->with('update_succeeded','You have changed your profile Image successfully!');
         // return 'You have changed your profile Image successfully!';
         return response()->json(['message' => $image,'update_succeeded'=>'You have changed your profile Image successfully!']);

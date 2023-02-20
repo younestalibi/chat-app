@@ -130,7 +130,7 @@ $(()=>{
             url:'/home/readMessage/'+user.id,
             method: 'POST'
         });
-        
+        console.log('{{auth()->user()->id}}')
         open_conversation_window()
         $('#welcome_message').removeClass('d-flex').addClass('d-none')
         // getting messages
