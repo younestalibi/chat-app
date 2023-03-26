@@ -1,0 +1,240 @@
+#tringle_sent{
+    border-top: 12px solid transparent ;
+    border-left: 25px solid #d1d0d0;
+    border-bottom: 12px solid transparent;
+    position: absolute;
+    right: -13px;
+    top: -12px;
+    transform: rotate(-45deg);
+}
+#tringle_recived{
+    border-top: 12px solid transparent;
+    border-left: 25px solid #28a745;
+    border-bottom: 12px solid transparent;
+    position: absolute;
+    left: -11px;
+    top: -14px;
+    transform: rotate(-129deg);
+}
+.list_friends{
+    background-color: #343a40!important;
+    color: rgb(234, 234, 234);
+    cursor: pointer;
+    border-bottom: 1px solid #40474e!important;
+    
+}
+.list_friends:hover{
+    background-color: #ffffff12!important;
+    margin: 0px 5px !important;
+}
+
+#conversation{
+    height:calc(100vh - 100px);
+    /* overflow-y:auto;
+    overflow-x:hidden; */
+    background-image:url("/img/pikrepo.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+#right_menu{
+    width: 220px;
+    position: absolute;
+    top: 56px;
+    left: 8px;
+    border-radius: 9px;
+    z-index: 2;
+}
+#right_menu ul li{
+    background-color: #5a5a5a;
+    color: white;
+    cursor: pointer;
+}
+#right_menu ul li:hover{
+    background-color: rgb(138, 138, 138);
+    padding: 12px 15px;
+}
+.send_icon::before{
+    vertical-align: middle;
+    cursor: pointer;
+}
+#friend_profile{
+    position: sticky;
+    height: 100%;
+    top: 0px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background-color: #343a40!important;
+    border-top:2px solid rgb(84, 83, 83) ;
+    z-index: 1;
+    color: white;
+}
+.icons_nav{
+    cursor: pointer;
+    color:rgb(80, 80, 245)
+}
+#person:hover{
+    color: green;
+}
+.lines{
+    border-bottom: 5px solid rgb(93, 92, 92) !important;
+}
+.options{
+    background-color: #00000024;
+    cursor: pointer;
+}
+.options:hover{
+    background-color: #3d444b;
+}
+#friends_list{
+    background-color: #343a40!important;
+    height:calc(100vh - 106px);
+    overflow-y:auto;
+    overflow-x:hidden;
+    padding-bottom: 125px;
+}
+
+.online{
+    border: 3px solid #03d903;
+    border-radius: 50%;
+    animation-name: online_shadow;
+    animation-duration: 3s;
+    box-shadow: 0px 0px 1px rgb(43, 173, 43);
+    animation-iteration-count: infinite;
+
+}
+@keyframes online_shadow {
+    0%   {box-shadow: 0px 0px 10px green}
+    25%   {box-shadow: 0px 0px 5px green}
+    50%  {box-shadow: 0px 0px 10px green}
+    75%  {box-shadow: 0px 0px 5px green}
+    100% {box-shadow: 0px 0px 10px green}
+  }
+
+input[type=text]{
+    border-radius: 30px;
+}
+img{
+    object-fit: cover
+}
+body{
+    overflow: auto;
+}
+
+
+/* start new */
+#friend_bar{
+    background-color: #343a40!important;
+    border-color: #343a40!important;
+    height:50px;
+    color: white;
+}
+#media_section{
+    position: sticky;
+    height: 100%;
+    top: 0px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background-color: #343a40;
+    border-top:2px solid rgb(84, 83, 83) ;
+    color: white;
+    z-index: 1
+}
+#recived_message{
+    max-width: 80%;
+    border-top-right-radius: 9px;
+    border-bottom-right-radius: 30px;
+    border-bottom-left-radius: 30px;
+    background-color: #28a745!important;
+}
+#sent_message{
+    max-width: 80%;
+    background-color: #d1d0d0;
+    border-top-left-radius: 9px;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+}
+
+/* Set the width and color of the scrollbar */
+::-webkit-scrollbar {
+    width: 16px;
+   
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: #009d;
+    border-radius: 55px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background-color: #717171e8;
+  }
+
+  
+@media (700px<= width){
+    #sent_message:not(:has(img[src=""])) {
+        width:400px;
+    }
+    #recived_message:not(:has(img[src=""])) {
+        width:400px;
+    }
+}
+#message_input_container{
+    height:50px;
+    background-color: #343a40!important;
+    color:rgb(188, 209, 188) !important;
+    border-top: 2px solid rgb(84, 83, 83);
+
+}
+#profile_settings{
+    position:absolute;
+    z-index:3;
+    background-color: #343a40!important;
+  ;
+}
+#user_profile_bar{
+    border: 2px solid rgb(84, 83, 83);
+    background-color: #343a40!important;
+    height:90px;
+}
+#user_navbar{
+    height: 50px;
+    border-left: 0!important;
+    background-color: #343a40!important;
+    border: 1px solid rgb(84, 83, 83);
+    color:white
+}
+/* search we stopped at search for dark mode */
+#right_section{
+    background-color: #343a40!important;
+    border-left: 1px solid rgb(84, 83, 83) !important;
+}
+.box_warning{
+    background-color: #494c4f!important;
+    color: rgb(219, 218, 218);
+}
+#unfriend_user,#delete_conversation{
+    color: white;
+}
+
+/* --------- */
+.loader {
+    border: 11px solid #8b3aa1b6;
+    border-radius: 50%;
+    border-top: 11px solid #0aa417;
+    width: 80px;
+    height: 80px;
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 2s linear infinite;
+  }
+  
+  /* Safari */
+  @-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
