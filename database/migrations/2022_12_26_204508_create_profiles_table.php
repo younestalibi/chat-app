@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('profiles', function (Blueprint $table) {
             $table->id();
-            $table->string('image')->default('default-images/profile.webp');
+            $table->string('image')->default('default-images/profile.png');
             $table->foreignId('user_id')->constrained('users')->onUpdate('cascade')->onDelete('cascade');
             $table->string('description')->default('Hey i am new here');
             $table->timestamps();

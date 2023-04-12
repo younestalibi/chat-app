@@ -62,7 +62,7 @@
                         </div>
                         <div class="flex-row d-flex justify-content-center" style="overflow:auto;">
                             <div style="width:80px;height:80px;" class="mx-1 bg-dark d-flex justify-content-center align-items-center rounded">
-                                <img src="/img/profile.webp" style="width:90%; height:90%" alt="">
+                                <img src="/img/profile." style="width:90%; height:90%" alt="">
                             </div>
                             <div style="width:80px;height:80px;" class="mx-1 bg-dark d-flex justify-content-center align-items-center rounded">
                                 <img src="/img/profile.webp" style="width:90%; height:90%" alt="">

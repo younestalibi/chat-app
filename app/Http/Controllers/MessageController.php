@@ -94,7 +94,8 @@ class MessageController extends Controller
 
 
          $data2='{"name":"'.$user->name.'","to":"'.$request->to.'","message":"'. $message_image.'","message_image":"'.$image.'","id":"'.$user->id.'","email":"'.$user->email.'","status":"'.$user->status.'","description":"'. $user->profile->description .'","image":"'.$user->profile->image_profile().'"}';
-
+         $friend=User::findOrFail($request->to);
+         $data='{"name":"'.$friend->name.'","id":"'.$friend->id.'","email":"'.$friend->email.'","status":"'.$friend->status.'","description":"'.$friend->profile->description.'","image":"'.$friend->profile->image_profile().'"}';
         return(
             $data
         );

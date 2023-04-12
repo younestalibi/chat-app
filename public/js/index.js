@@ -302,9 +302,12 @@ $(()=>{
 
     $('#form').submit(function(e) {
         e.preventDefault();
+        var listed=true
+        var message=$('#message_input').val()
+        console.log(message)
         var dt = new Date();
         let to=$('#to').val()
-        var time = dt.getHours() + ":" + dt.getMinutes() +(dt.getHours()>=12? "PM":"AM");
+        var time = dt.getHours() + ":" + dt.getMinutes() +(dt.getHours()>=12? " PM":" AM");
         if($( "#message_input" ).val().length>0 || $('#upload').val().length>0){
             console.log('sending')            
             jQuery.ajax({
@@ -314,20 +317,23 @@ $(()=>{
                 cache:false,
                 contentType: false,
                 processData: false,
-                beforeSend: function() {
+                beforeSend: function() {                    
                     $('.list_friends').each(function() {
                         let user=$(this).attr('ui')
                         if(user==to){
+                            listed=false
                             $(this).prependTo('#friends_list');
                             $(this).find('.last_message').text($('#message_input').val())
+                            $(this).find("small:first").text(time)
                         }
                     });
+                    
                     $('#messages').append(''+
                     '<div class="row justify-content-end mx-0 py-1">'+
                         '<div class="col-auto px-3 py-2" id="sent_message">'+
                             '<div id="tringle_sent"></div>'+
                             '<img src="'+ $('#imgPreview').attr('src')+'" class="w-100 rounded d-block" alt="">'+
-                            '<b>'+$( "#message_input" ).val()+'</b>'+
+                            '<b>'+message+'</b>'+
                             '<div class="align-items-center d-flex">'+
                                 '<i class="bi bi-check-all"></i>'+
                                 '<small class="font-weight-bold" style="font-size: 11px;">'+time+'</small>'+
@@ -338,6 +344,26 @@ $(()=>{
                  },
                 success: function(data){
                     console.log('return : '+data)
+                    let blog=JSON.parse(data)
+                    if(listed){
+                        $('#friends_list').append(''+
+                        `<div blog="`+data+`" ui='`+to+`' class="list_friends d-flex justify-content-between align-items-center p-2">`+
+                            `<small class="align-self-start font-weight-bold text-muted">`+time+`</small>`+
+                            `<div class="d-flex align-items-center">`+
+                                `<div class="text-right flex-column d-flex" style="line-height: 20px;">`+
+                                    `<b>`+blog.name+`</b>`+
+                                    `<small class="text-muted last_message">`+message+`</small>`+
+                                `</div>`+
+                                `<div class="mx-2 online" style="width: 50px; height: 50px; position: relative;">`+
+                                    `<div class="justify-content-center d-none align-items-center pending" style="width: 17px; height: 17px; background-color: blue; position: absolute; z-index: 1; border-radius: 50%; top: -5px; font-size: 13px;"></div>`+
+                                    `<img src="`+blog.image+`" class="rounded-circle" alt="profile" style="width: 100%; height: 100%; position: absolute;"/>`+
+                                `</div>`+
+                            `</div>`+
+                        `</div>`+
+                        '')
+                        listed=false
+                    }
+
                     // console.log(JSON.parse(data))   //this ajax request is for sending image if the old method doesn't work this is not best practice in case
                     // jQuery.ajax({
                     //     url: '/home/throw',
